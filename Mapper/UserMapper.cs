@@ -77,7 +77,43 @@ namespace RentalSystem.Mapper
             }
         }
 
-        public R register(string id, string tel, string pass)
+        public R register(UserEntity user)
+        {
+            r = new R();
+            try
+            {
+                conn = dataSource.getConnection();
+                sql = "insert into users(u_id,u_pass,u_tel,u_name)values(@id,@pass,@tel,@name)";
+                comm = new MySqlCommand(sql, conn);
+                comm.Parameters.AddWithValue("id", user.U_id);
+                comm.Parameters.AddWithValue("pass", user.U_pass);
+                comm.Parameters.AddWithValue("tel", user.U_tel);
+                comm.Parameters.AddWithValue("name", user.U_name);
+                int n = comm.ExecuteNonQuery();
+                if (n < 0)
+                {
+                    r.Msg = "注册失败，请检查后重试...";
+                }
+                else
+                {
+                    r.Msg = "注册成功，请返回登录...";
+                    r.IsOK = true;
+                }
+                return r;
+            }
+            catch (Exception ex)
+            {
+                r.Msg = "该身份证已注册...";
+                r.IsOK = false;
+                return r;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public R s(string id, string tel, string pass)
         {
             r = new R();
             try

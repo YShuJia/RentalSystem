@@ -64,7 +64,6 @@ namespace RentalSystem.UserForm
                 return;
             color(now);
             openForm(new UserHandleForm(user));
-            Console.WriteLine("123");
         }
 
         private void now_link_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

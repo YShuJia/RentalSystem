@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RentalSystem.Entity;
+using RentalSystem.Mapper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,24 +27,60 @@ namespace RentalSystem.Common
 
         App app;
 
+        UserEntity user;
+
+        OwnerEntity owner;
+
+        UserMapper userMapper;
+
+        OwnerMapper ownerMapper;
+
+        R r;
+
         private void loginButton_Click(object sender, EventArgs e)
         {
             app.openForm(new Login(app));
         }
 
-        private void change(object sender, EventArgs e)
-        {
-            warn_label.Text = "";
-        }
-
         //注册
         private void submit_Click(object sender, EventArgs e)
         {
-            if (id.Text == "" || pass.Text == "" || tel.Text==""||sure_pass.Text=="")
+            if (id.Text == "" || pass.Text == "" || tel.Text==""||sure_pass.Text=="" ||name.Text=="")
             {
                 warn_label.Text = "请将信息填写完整...";
-                return;
             }
+            else if(pass.Text!=sure_pass.Text)
+            {
+                warn_label.Text = "密码不一致...";
+            }
+            else if(u_check.Checked)
+            {
+                user = new UserEntity();
+                user.U_id = id.Text;
+                user.U_name = name.Text;
+                user.U_pass = pass.Text;
+                user.U_tel = tel.Text;
+                
+                userMapper = new UserMapper();
+                r = userMapper.register(user);
+                warn_label.Text = r.Msg;
+            }
+            else if(o_check.Checked)
+            {
+                owner = new OwnerEntity();
+                owner.O_id = id.Text;
+                owner.O_name = name.Text;
+                owner.O_pass = pass.Text;   
+                owner.O_tel = tel.Text;
+                ownerMapper = new OwnerMapper();
+                r = ownerMapper.register(owner);
+                warn_label.Text = r.Msg;
+            }
+        }
+
+        private void change(object sender, EventArgs e)
+        {
+            warn_label.Text = "";
         }
     }
 }

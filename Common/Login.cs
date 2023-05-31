@@ -1,5 +1,7 @@
-﻿using RentalSystem.Entity;
+﻿using RentalSystem.AdminForm;
+using RentalSystem.Entity;
 using RentalSystem.Mapper;
+using RentalSystem.OwnerForm;
 using RentalSystem.UserForm;
 using System;
 using System.Windows.Forms;
@@ -51,11 +53,17 @@ namespace RentalSystem.Common
                 }
                 else if(o.Checked)
                 {
-                    Console.WriteLine("房主");
+                    ownerMapper = new OwnerMapper();
+                    r = ownerMapper.login(id.Text, pass.Text);
+                    OwnerEntity owner = (OwnerEntity)r.Obj;
+                    app.openForm(new OwnerApp(app, owner));
                 }
                 else
                 {
-                    Console.WriteLine("管理员");
+                    adminMapper = new AdminMapper();
+                    r = adminMapper.login(id.Text, pass.Text);
+                    AdminEntity admin = (AdminEntity)r.Obj;
+                    app.openForm(new AdminApp(app, admin));
                 }
             }
         }
