@@ -65,5 +65,28 @@ namespace RentalSystem.Mapper
                 conn.Close();
             }
         }
+
+        //管理员id为admin
+        public bool updateAccountById(string id, decimal amount, bool isInOut, MySqlConnection con)
+        {
+            r = new R();
+            try
+            {
+                sql = "update admin set a_account=a_account+@amount where a_id=@id";
+                if (!isInOut)
+                {
+                    sql = "update admin set a_account=a_account-@amount where a_id=@id";
+                }
+                comm = new MySqlCommand(sql, con);
+                comm.Parameters.AddWithValue("id", id);
+                comm.Parameters.AddWithValue("amount", amount);
+                int n = comm.ExecuteNonQuery();
+                return n > 0;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

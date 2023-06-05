@@ -24,6 +24,12 @@ namespace RentalSystem.Mapper
 
         DataSource dataSource = new DataSource();
 
+        UserMapper userMapper = new UserMapper();
+
+        OwnerMapper ownerMapper = new OwnerMapper();
+
+        AdminMapper adminMapper = new AdminMapper();
+
         string sql;
 
         R r;
@@ -46,14 +52,68 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("time", transfer.T_time);
                 comm.Parameters.AddWithValue("amount", transfer.T_amount);
                 int n = comm.ExecuteNonQuery();
-                if (n > 0)
+
+                if (n<0)
                 {
+                    r.IsOK = false;
+                    transaction.Rollback();
+                    return r;
+                }
+                //(1，-1) 用户与房主，(2，-2)房主与管理，(3,-3)用户与管理，0取消
+                bool isInOut = false;
+                string id;
+                if(Math.Abs(transfer.T_state) == 1)
+                {
+                    isInOut = transfer.T_state<0;
+                    if (transfer.T_state == 1 && userMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, isInOut, conn) &&
+                    ownerMapper.updateAccountById(transfer.T_object_id , transfer.T_amount, isInOut, conn))
+                    {
+                        transaction.Commit();
+                        r.IsOK = true;
+                    }
+                    else if(transfer.T_state == -1 && userMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, isInOut, conn) &&
+                    ownerMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, isInOut, conn))
+                    {
+                        transaction.Commit();
+                        r.IsOK = true;
+                    }
+                }
+                else if (Math.Abs(transfer.T_state) == 2)
+                {
+                    isInOut = transfer.T_state < 0;
+                    if (transfer.T_state ==2 && ownerMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, isInOut, conn) &&
+                    adminMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, isInOut, conn))
+                    {
+                        transaction.Commit();
+                        r.IsOK = true;
+                    }
+                    else if (transfer.T_state == -2 && ownerMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, isInOut, conn) &&
+                    adminMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, isInOut, conn))
+                    {
+                        transaction.Commit();
+                        r.IsOK = true;
+                    }
+                }
+                else if (Math.Abs(transfer.T_state) == 3)
+                {
+                    isInOut = transfer.T_state < 0;
+                    if (transfer.T_state == 3 && userMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, isInOut, conn) &&
+                    adminMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, isInOut, conn))
+                    {
+                        transaction.Commit();
+                        r.IsOK = true;
+                    }
+                    else if (transfer.T_state == -3 && userMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, isInOut, conn) &&
+                    adminMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, isInOut, conn))
+                    {
+                        transaction.Commit();
+                        r.IsOK = true;
+                    }
                 }
                 else
                 {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
                     transaction.Rollback();
+                    r.IsOK = false;
                 }
                 return r;
             }
@@ -69,41 +129,5 @@ namespace RentalSystem.Mapper
             }
         }
 
-        public R updateState(int state, string b_id, long h_id)
-        {
-            r = new R();
-            MySqlTransaction transaction = null;
-            try
-            {
-                conn = dataSource.getConnection();
-                transaction = conn.BeginTransaction();
-                sql = "update bill set b_state = @state where b_id = @b_id and h_id=@h_id";
-                comm = new MySqlCommand(sql, conn);
-                comm.Parameters.AddWithValue("state", state);
-                comm.Parameters.AddWithValue("b_id", b_id);
-                comm.Parameters.AddWithValue("h_id", h_id);
-                int n = comm.ExecuteNonQuery();
-                if (n > 0)
-                {
-                }
-                else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
-                    transaction.Rollback();
-                }
-                return r;
-            }
-            catch (Exception ex)
-            {
-                r.Msg = "操作失败...";
-                transaction.Rollback();
-                return r;
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
     }
 }

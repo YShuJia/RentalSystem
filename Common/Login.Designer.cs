@@ -106,7 +106,7 @@
             this.id.Name = "id";
             this.id.Size = new System.Drawing.Size(232, 26);
             this.id.TabIndex = 5;
-            this.id.Text = "123123";
+            this.id.Text = "123";
             this.id.TextChanged += new System.EventHandler(this.change);
             // 
             // u

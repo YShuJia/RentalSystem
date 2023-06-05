@@ -43,7 +43,7 @@ namespace RentalSystem.UserForm
 
         private void getReservation()
         {
-            r = reservationMapper.selectByView(2,user.U_id);
+            r = reservationMapper.selectByView(-2,user.U_id);
             if(r.IsOK )
             {
                 DataSet ds = (DataSet)r.Obj;
@@ -65,7 +65,7 @@ namespace RentalSystem.UserForm
 
         private void getBill()
         {
-            r = billMapper.selectByView(2,user.U_id);
+            r = billMapper.selectByView(-2,user.U_id);
             if (r.IsOK)
             {
                 DataSet ds = (DataSet)r.Obj;
@@ -129,7 +129,7 @@ namespace RentalSystem.UserForm
                     TransferEntity transfer = new TransferEntity();
                     transfer.T_plaintiff_id = user.U_id;
                     transfer.T_object_id = o_id;
-                    transfer.T_state = 1;
+                    transfer.T_state = 1; //表示用户向房主转账
                     transfer.T_id = Utils.getTimeTicks();
                     transfer.T_time = DateTime.Now;
                     transfer.T_amount = amount;

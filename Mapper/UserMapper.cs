@@ -113,7 +113,28 @@ namespace RentalSystem.Mapper
             }
         }
 
-        public R s(string id, string tel, string pass)
+        public bool updateAccountById(string id, decimal amount, bool isInOut, MySqlConnection con)
+        {
+            r = new R();
+            try
+            {
+                sql = "update users set u_account=u_account+@amount where u_id=@id";
+                if (!isInOut)
+                {
+                    sql = "update users set u_account=u_account-@amount where u_id=@id";
+                }
+                comm = new MySqlCommand(sql, con);
+                comm.Parameters.AddWithValue("id", id);
+                comm.Parameters.AddWithValue("amount", amount);
+                int n = comm.ExecuteNonQuery();
+                return n>0;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public R updateAccountById(string pass)
         {
             r = new R();
             try
