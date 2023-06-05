@@ -148,11 +148,6 @@ namespace RentalSystem.UserForm
         //筛选
         private void submit_Click(object sender, EventArgs e)
         {
-            if (type.Text == "" && rent.Text == "" && area.Text == "")
-            {
-                warn_label.Text = "请先输入筛选条件...";
-                return;
-            }
             warn_label.Text = "";
             page.PageNum = 1;
             page_label.Text = "1";

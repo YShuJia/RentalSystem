@@ -80,7 +80,7 @@
             this.tableLayoutPanel1.Controls.Add(this.msg_link, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.pass_link, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.exit_link, 0, 7);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 9;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));

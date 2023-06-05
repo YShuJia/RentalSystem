@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.AxHost;
 
 namespace RentalSystem.Mapper
 {
@@ -24,7 +25,7 @@ namespace RentalSystem.Mapper
 
         DataSource dataSource = new DataSource();
 
-        HouseMapper houseMapper;
+        HouseMapper houseMapper= new HouseMapper();
 
         string sql;
 
@@ -53,17 +54,12 @@ namespace RentalSystem.Mapper
                 int n = comm.ExecuteNonQuery();
                 houseMapper = new HouseMapper();
 
-                if (n > 0&& houseMapper.updateState(2, bill.H_id, conn).IsOK)
-                {
-                    r.Msg = "操作成功...";
+                r.IsOK = n > 0 && houseMapper.updateState(2, bill.H_id, conn).IsOK;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
+                if (r.IsOK)
                     transaction.Commit();
-                }
                 else
-                {
-                    r.Msg = "操作失败...";
                     transaction.Rollback();
-                }
-                r.IsOK = n>0;
                 return r;
             }
             catch (Exception ex)
@@ -92,13 +88,8 @@ namespace RentalSystem.Mapper
                 adapter = new MySqlDataAdapter(comm);
                 ds = new DataSet();
                 adapter.Fill(ds);
-
-                r.IsOK = true;
-                if (ds.Tables[0].Rows.Count < 1)
-                {
-                    r.IsOK= false;
-                    r.Msg = "暂无数据...";
-                }
+                r.IsOK = ds.Tables[0].Rows.Count > 0;
+                r.Msg = r.IsOK ? "" : "暂无数据...";
                 r.Obj = ds;
                 return r;
             }
@@ -127,13 +118,8 @@ namespace RentalSystem.Mapper
                 adapter = new MySqlDataAdapter(comm);
                 ds = new DataSet();
                 adapter.Fill(ds);
-
-                r.IsOK = true;
-                if (ds.Tables[0].Rows.Count < 1)
-                {
-                    r.IsOK = false;
-                    r.Msg = "暂无数据...";
-                }
+                r.IsOK = ds.Tables[0].Rows.Count > 0;
+                r.Msg = r.IsOK ? "" : "暂无数据...";
                 r.Obj = ds;
                 return r;
             }
@@ -154,7 +140,7 @@ namespace RentalSystem.Mapper
             try
             {
                 conn = dataSource.getConnection();
-                sql = "SELECT b_id 订单ID, u_tel 用户电话, u_sex 性别, h_id 房屋ID, h_addr 房屋地址, b_rent '租金(元)', b_deposit '押金(元)', b_premium 手续费, b_day '租期(天)' " +
+                sql = "SELECT b_id 订单ID, u_id 用户ID, u_tel 用户电话, u_sex 性别, h_id 房屋ID, h_addr 房屋地址, b_rent '租金(元)', b_deposit '押金(元)', b_premium 手续费, b_day '租期(天)' " +
                     "FROM bill JOIN house USING(h_id) JOIN users USING(u_id) WHERE h_id IN( " +
                     "SELECT h_id FROM house WHERE o_id in (" +
                     "SELECT o_id FROM `owner`) and o_id = @id ) and b_state = @state";
@@ -164,13 +150,8 @@ namespace RentalSystem.Mapper
                 adapter = new MySqlDataAdapter(comm);
                 ds = new DataSet();
                 adapter.Fill(ds);
-
-                r.IsOK = true;
-                if (ds.Tables[0].Rows.Count < 1)
-                {
-                    r.IsOK = false;
-                    r.Msg = "暂无数据...";
-                }
+                r.IsOK = ds.Tables[0].Rows.Count > 0;
+                r.Msg = r.IsOK ? "" : "暂无数据...";
                 r.Obj = ds;
                 return r;
             }
@@ -225,23 +206,13 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("b_id", b_id);
                 comm.Parameters.AddWithValue("h_id", h_id);
                 int n = comm.ExecuteNonQuery();
-                if (n>0)
-                {
-                    houseMapper = new HouseMapper();
-                    r = houseMapper.updateState(h_state, h_id, conn);
-                    if(r.IsOK)
-                    {
-                        transaction.Commit();
-                        r.IsOK = true;
-                        r.Msg = "操作成功...";
-                    }
-                }
+
+                r.IsOK = n > 0 && houseMapper.updateState(h_state, h_id, conn).IsOK;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
+                if (r.IsOK)
+                    transaction.Commit();
                 else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
-                    transaction.Rollback(); 
-                }
+                    transaction.Rollback();
                 return r;
             }
             catch (Exception ex)
@@ -268,16 +239,8 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("b_id", b_id);
                 comm.Parameters.AddWithValue("h_id", h_id);
                 int n = comm.ExecuteNonQuery();
-                if (n > 0)
-                {
-                    r.IsOK = true;
-                    r.Msg = "操作成功...";
-                }
-                else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
-                }
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
                 return r;
             }
             catch (Exception ex)
@@ -303,16 +266,8 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("b_id", b_id);
                 comm.Parameters.AddWithValue("u_id", u_id);
                 int n = comm.ExecuteNonQuery();
-                if (n > 0)
-                {
-                    r.IsOK = true;
-                    r.Msg = "操作成功...";
-                }
-                else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
-                }
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
                 return r;
             }
             catch (Exception ex)
@@ -337,21 +292,9 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("b_id", b_id);
                 comm.Parameters.AddWithValue("h_id", h_id);
                 int n = comm.ExecuteNonQuery();
-                if (n > 0)
-                {
-                    houseMapper = new HouseMapper();
-                    r = houseMapper.updateState(h_state, h_id, con);
-                    if (r.IsOK)
-                    {
-                        r.IsOK = true;
-                        r.Msg = "操作成功...";
-                    }
-                }
-                else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
-                }
+                houseMapper = new HouseMapper();
+                r.IsOK = n > 0&& houseMapper.updateState(h_state, h_id, con).IsOK;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
                 return r;
             }
             catch (Exception ex)
@@ -371,16 +314,8 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("b_id", b_id);
                 comm.Parameters.AddWithValue("h_id", h_id);
                 int n = comm.ExecuteNonQuery();
-                if (n > 0)
-                {
-                    r.IsOK = true;
-                    r.Msg = "操作成功...";
-                }
-                else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
-                }
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
                 return r;
             }
             catch (Exception ex)

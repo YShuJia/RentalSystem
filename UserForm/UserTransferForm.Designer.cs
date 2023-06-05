@@ -111,7 +111,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(771, 488);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "转出";
+            this.tabPage1.Text = "支出";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // dataGridView1

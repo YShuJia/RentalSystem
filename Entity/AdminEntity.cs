@@ -12,7 +12,7 @@ namespace RentalSystem.Entity
 
         private string a_pass;
 
-        private string tel;
+        private string a_tel;
 
         private decimal a_account;
 
@@ -20,6 +20,6 @@ namespace RentalSystem.Entity
         public string A_id { get => a_id; set => a_id = value; }
         public string A_pass { get => a_pass; set => a_pass = value; }
         public decimal A_account { get => a_account; set => a_account = value; }
-        public string Tel { get => tel; set => tel = value; }
+        public string A_tel { get => a_tel; set => a_tel = value; }
     }
 }

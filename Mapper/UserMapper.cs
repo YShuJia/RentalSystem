@@ -77,6 +77,53 @@ namespace RentalSystem.Mapper
             }
         }
 
+        public R selectByTable(Page page, string sex, string tel, int point)
+        {
+            r = new R();
+            try
+            {
+                conn = dataSource.getConnection();
+                sql = "select u_id 用户ID, u_name 姓名, u_tel 电话, u_sex 性别, u_point 积分, u_state '0在线 1冻结 -1注销' from users where 1=1";
+
+                if (sex != "")
+                    sql += " and u_sex like @sex";
+                if (tel != "")
+                    sql += " and u_tel like @tel";
+                if (point != -1000)
+                    sql += " and u_point like @point";
+
+                sql += " limit @pageStart,@pageSize";
+
+                comm = new MySqlCommand(sql, conn);
+                if (sex != "")
+                    comm.Parameters.AddWithValue("sex", "%" + sex + "%");
+                if (tel != "")
+                    comm.Parameters.AddWithValue("tel", "%" + tel + "%");
+                if (point != -1000)
+                    comm.Parameters.AddWithValue("point", "%" + point + "%");
+
+                comm.Parameters.AddWithValue("pageStart", (page.PageNum - 1) * page.PageSize);
+                comm.Parameters.AddWithValue("pageSize", page.PageSize);
+
+                adapter = new MySqlDataAdapter(comm);
+                ds = new DataSet();
+                adapter.Fill(ds);
+                r.IsOK = ds.Tables[0].Rows.Count > 0;
+                r.Msg = r.IsOK ? "" : "暂无数据...";
+                r.Obj = ds;
+                return r;
+            }
+            catch (Exception ex)
+            {
+                r.Msg = "服务器异常...";
+                return r;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
         public R register(UserEntity user)
         {
             r = new R();
@@ -90,15 +137,8 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("tel", user.U_tel);
                 comm.Parameters.AddWithValue("name", user.U_name);
                 int n = comm.ExecuteNonQuery();
-                if (n < 0)
-                {
-                    r.Msg = "注册失败，请检查后重试...";
-                }
-                else
-                {
-                    r.Msg = "注册成功，请返回登录...";
-                    r.IsOK = true;
-                }
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "注册成功，请返回登录..." : "注册失败，请检查后重试...";
                 return r;
             }
             catch (Exception ex)
@@ -113,13 +153,13 @@ namespace RentalSystem.Mapper
             }
         }
 
-        public bool updateAccountById(string id, decimal amount, bool isInOut, MySqlConnection con)
+        public bool updateAccountById(string id, decimal amount, bool isIn, MySqlConnection con)
         {
             r = new R();
             try
             {
                 sql = "update users set u_account=u_account+@amount where u_id=@id";
-                if (!isInOut)
+                if (!isIn)
                 {
                     sql = "update users set u_account=u_account-@amount where u_id=@id";
                 }
@@ -145,17 +185,8 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("id", id);
                 comm.Parameters.AddWithValue("pass",pass);
                 int n = comm.ExecuteNonQuery();
-
-                if (n>0)
-                {
-                    r.IsOK=true;
-                    r.Msg = "操作成功...";
-                }
-                else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
-                }
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
                 return r;
             }
             catch (Exception ex)
@@ -170,7 +201,7 @@ namespace RentalSystem.Mapper
             return r;
         }
 
-        public R updateUserById(UserEntity user)
+        public R updateUser(UserEntity user)
         {
             r = new R();
             try
@@ -184,17 +215,92 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("addr", user.U_addr);
                 comm.Parameters.AddWithValue("name", user.U_name);
                 int n = comm.ExecuteNonQuery();
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
+                return r;
+            }
+            catch (Exception ex)
+            {
+                r.IsOK = false;
+                r.Msg = "服务器异常...";
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return r;
+        }
 
-                if (n > 0)
+        public R updateStateById(string id, int state)
+        {
+            r = new R();
+            try
+            {
+                conn = dataSource.getConnection();
+                sql = "update users set u_state=@state where u_id=@id";
+                comm = new MySqlCommand(sql, conn);
+                comm.Parameters.AddWithValue("id", id);
+                comm.Parameters.AddWithValue("state", state);
+                int n = comm.ExecuteNonQuery();
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
+                return r;
+            }
+            catch (Exception ex)
+            {
+                r.IsOK = false;
+                r.Msg = "服务器异常...";
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return r;
+        }
+        public R updatePointById(string id, int total_point)
+        {
+            r = new R();
+            try
+            {
+                conn = dataSource.getConnection();
+                sql = "update users set u_point=@point where u_id=@id";
+                comm = new MySqlCommand(sql, conn);
+                comm.Parameters.AddWithValue("id", id);
+                comm.Parameters.AddWithValue("point", total_point);
+                int n = comm.ExecuteNonQuery();
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
+                return r;
+            }
+            catch (Exception ex)
+            {
+                r.IsOK = false;
+                r.Msg = "服务器异常...";
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return r;
+        }
+
+        public R updatePointById(string id, int change_point, bool add)
+        {
+            r = new R();
+            try
+            {
+                conn = dataSource.getConnection();
+                sql = "update users set u_point=u_point-@point where u_id=@id";
+                if (add)
                 {
-                    r.IsOK = true;
-                    r.Msg = "操作成功...";
+                    sql = "update users set u_point=u_point+@point where u_id=@id";
                 }
-                else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
-                }
+                comm = new MySqlCommand(sql, conn);
+                comm.Parameters.AddWithValue("id", id);
+                comm.Parameters.AddWithValue("point", change_point);
+                int n = comm.ExecuteNonQuery();
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
                 return r;
             }
             catch (Exception ex)

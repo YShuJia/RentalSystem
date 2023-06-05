@@ -39,6 +39,7 @@
             this.lable = new System.Windows.Forms.Label();
             this.submit = new System.Windows.Forms.Button();
             this.warn_label = new System.Windows.Forms.Label();
+            this.upload = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.page_label = new System.Windows.Forms.Label();
             this.pre = new System.Windows.Forms.Button();
@@ -56,7 +57,6 @@
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Menu;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -89,13 +89,14 @@
             // 
             this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 7;
+            this.tableLayoutPanel1.ColumnCount = 8;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 145F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.type, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
@@ -103,7 +104,8 @@
             this.tableLayoutPanel1.Controls.Add(this.rent, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.lable, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.submit, 5, 0);
-            this.tableLayoutPanel1.Controls.Add(this.warn_label, 6, 0);
+            this.tableLayoutPanel1.Controls.Add(this.warn_label, 7, 0);
+            this.tableLayoutPanel1.Controls.Add(this.upload, 6, 0);
             this.tableLayoutPanel1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -118,6 +120,8 @@
             this.type.FormattingEnabled = true;
             this.type.Items.AddRange(new object[] {
             "",
+            "一室一厅",
+            "一室一厅一卫",
             "两室一厅一卫",
             "三室一厅一卫",
             "三室一厅两卫",
@@ -129,7 +133,7 @@
             "五室两厅两卫",
             "六室一厅两卫",
             "六室两厅两卫"});
-            this.type.Location = new System.Drawing.Point(0, 8);
+            this.type.Location = new System.Drawing.Point(0, 5);
             this.type.Margin = new System.Windows.Forms.Padding(0);
             this.type.Name = "type";
             this.type.Size = new System.Drawing.Size(145, 24);
@@ -195,6 +199,17 @@
             this.warn_label.Name = "warn_label";
             this.warn_label.Size = new System.Drawing.Size(0, 16);
             this.warn_label.TabIndex = 5;
+            // 
+            // upload
+            // 
+            this.upload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.upload.Location = new System.Drawing.Point(588, 3);
+            this.upload.Name = "upload";
+            this.upload.Size = new System.Drawing.Size(94, 30);
+            this.upload.TabIndex = 7;
+            this.upload.Text = "上传房屋";
+            this.upload.UseVisualStyleBackColor = true;
+            this.upload.Click += new System.EventHandler(this.upload_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -284,5 +299,6 @@
         private System.Windows.Forms.Label page_label;
         private System.Windows.Forms.Button pre;
         private System.Windows.Forms.Button next;
+        private System.Windows.Forms.Button upload;
     }
 }

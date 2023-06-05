@@ -67,6 +67,12 @@ namespace RentalSystem.OwnerForm
                     column.Text = "上 架";
                     column.UseColumnTextForButtonValue = true;
                     dataGridView1.Columns.Add(column);
+
+                    column = new DataGridViewButtonColumn();
+                    column.Name = "操 作3";
+                    column.Text = "修 改";
+                    column.UseColumnTextForButtonValue = true;
+                    dataGridView1.Columns.Add(column);
                     f = false;
                 }
             }
@@ -82,7 +88,7 @@ namespace RentalSystem.OwnerForm
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             warn_label.Text = "";
-            if (e.ColumnIndex != 0 && e.ColumnIndex != 1)
+            if (e.ColumnIndex != 0 && e.ColumnIndex != 1 && e.ColumnIndex!=2)
             {
                 return;
             }
@@ -91,7 +97,7 @@ namespace RentalSystem.OwnerForm
 
             if (e.ColumnIndex == 0)
             {
-                if(state==0&&MessageBox.Show("确定要下架该房屋?", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if(state==0 && MessageBox.Show("确定要下架该房屋?", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     r = houseMapper.updateStateToRental(-1, h_id);
                     warn_label.Text=r.Msg;
@@ -100,14 +106,15 @@ namespace RentalSystem.OwnerForm
                         dataGridView1.Rows[e.RowIndex].Cells["1预约 2租赁 -1下架"].Value = -1;
                     }
                 }
-                else
+                else if(state!=0)
                 {
                     warn_label.Text = "该房屋在使用中不能下架...";
                 }
             }
-            else 
+            else if(e.ColumnIndex==1)
             {
-                if (state==-1&&MessageBox.Show("确定要上架该房屋?", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (state==-1 && 
+                    MessageBox.Show("确定要上架该房屋?", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     r = houseMapper.updateStateToRental(0, h_id);
                     warn_label.Text = r.Msg;
@@ -116,7 +123,29 @@ namespace RentalSystem.OwnerForm
                         dataGridView1.Rows[e.RowIndex].Cells["1预约 2租赁 -1下架"].Value = 0;
                     }
                 }
-                else
+                else if(state != -1)
+                {
+                    warn_label.Text = "该房屋已在使用中...";
+                }
+            }
+            else
+            {
+                if (state == 0)
+                {
+                    r = houseMapper.updateStateToRental(0, h_id);
+                    HouseEntity house = new HouseEntity();
+                    house.H_id = h_id;
+                    house.O_id = owner.O_id;
+                    house.H_introduce =dataGridView1.Rows[e.RowIndex].Cells["简介"].Value.ToString();
+                    house.H_addr =dataGridView1.Rows[e.RowIndex].Cells["地址"].Value.ToString();
+                    house.H_type =dataGridView1.Rows[e.RowIndex].Cells["房型"].Value.ToString();
+                    house.H_deposit = Convert.ToDecimal(dataGridView1.Rows[e.RowIndex].Cells["押金(元)"].Value);
+                    house.H_rent = Convert.ToDecimal(dataGridView1.Rows[e.RowIndex].Cells["租金(元)"].Value);
+                    house.H_area = Convert.ToDecimal(dataGridView1.Rows[e.RowIndex].Cells["面积(m²)"].Value);
+                    OwnerHouseForm ownerHouse = new OwnerHouseForm(house);
+                    ownerHouse.ShowDialog();
+                }
+                else if (state != 0)
                 {
                     warn_label.Text = "该房屋已在使用中...";
                 }
@@ -166,6 +195,14 @@ namespace RentalSystem.OwnerForm
         private void type_TextChanged(object sender, EventArgs e)
         {
             warn_label.Text = "";
+        }
+
+        private void upload_Click(object sender, EventArgs e)
+        {
+            HouseEntity house = new HouseEntity();
+            house.O_id = owner.O_id;
+            OwnerUploadForm form = new OwnerUploadForm(house);
+            form.ShowDialog();
         }
     }
 }

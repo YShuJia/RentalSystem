@@ -35,7 +35,7 @@ namespace RentalSystem.Mapper
             try
             {
                 conn = dataSource.getConnection();
-                sql = "select a_id, a_pass, a_account from admin where a_id=@id and a_pass=@pass";
+                sql = "select a_id, a_pass, a_account, a_tel from admin where a_id=@id and a_pass=@pass";
                 comm = new MySqlCommand(sql, conn);
                 comm.Parameters.AddWithValue("id", id);
                 comm.Parameters.AddWithValue("pass", pass);
@@ -45,6 +45,7 @@ namespace RentalSystem.Mapper
                     AdminEntity admin = new AdminEntity();
                     admin.A_id = reader["a_id"].ToString();
                     admin.A_pass = reader["a_pass"].ToString();
+                    admin.A_tel = reader["a_tel"].ToString();
                     admin.A_account = Convert.ToDecimal(reader["a_account"]);
                     r.IsOK = true;
                     r.Obj = admin;
@@ -86,6 +87,48 @@ namespace RentalSystem.Mapper
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        public R updatePassById(string id, string pass)
+        {
+            r = new R();
+            try
+            {
+                conn = dataSource.getConnection();
+                sql = "update admin set a_pass=@pass where a_id=@id";
+                comm = new MySqlCommand(sql, conn);
+                comm.Parameters.AddWithValue("id", id);
+                comm.Parameters.AddWithValue("pass", pass);
+                int n = comm.ExecuteNonQuery();
+                r.IsOK = n>0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
+                return r;
+            }
+            catch (Exception ex)
+            {
+                return r;
+            }
+        }
+
+        public R updateAdmin(AdminEntity admin)
+        {
+            r = new R();
+            try
+            {
+                conn = dataSource.getConnection();
+                sql = "update admin set a_tel=@tel where a_id=@id";
+                comm = new MySqlCommand(sql, conn);
+                comm.Parameters.AddWithValue("id", admin.A_id);
+                comm.Parameters.AddWithValue("tel", admin.A_tel);
+                int n = comm.ExecuteNonQuery();
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
+                return r;
+            }
+            catch (Exception ex)
+            {
+                return r;
             }
         }
     }

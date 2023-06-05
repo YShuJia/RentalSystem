@@ -56,7 +56,6 @@
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Menu;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -118,6 +117,8 @@
             this.type.FormattingEnabled = true;
             this.type.Items.AddRange(new object[] {
             "",
+            "一室一厅",
+            "一室一厅一卫",
             "两室一厅一卫",
             "三室一厅一卫",
             "三室一厅两卫",

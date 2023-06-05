@@ -82,7 +82,7 @@
             this.tableLayoutPanel1.Controls.Add(this.exit_link, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.pass_link, 0, 7);
             this.tableLayoutPanel1.Controls.Add(this.msg_link, 0, 6);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 10;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
@@ -95,7 +95,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(174, 533);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(174, 536);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tranfer_log

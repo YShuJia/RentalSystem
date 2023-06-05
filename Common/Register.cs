@@ -56,7 +56,7 @@ namespace RentalSystem.Common
             else if(u_check.Checked)
             {
                 user = new UserEntity();
-                user.U_id = id.Text;
+                user.U_id = "U_"+id.Text;
                 user.U_name = name.Text;
                 user.U_pass = pass.Text;
                 user.U_tel = tel.Text;
@@ -68,7 +68,7 @@ namespace RentalSystem.Common
             else if(o_check.Checked)
             {
                 owner = new OwnerEntity();
-                owner.O_id = id.Text;
+                owner.O_id = "O_"+id.Text;
                 owner.O_name = name.Text;
                 owner.O_pass = pass.Text;   
                 owner.O_tel = tel.Text;

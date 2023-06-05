@@ -43,7 +43,7 @@ namespace RentalSystem.Common
                 if (u.Checked)
                 {
                     userMapper = new UserMapper();
-                    r = userMapper.login(id.Text,pass.Text);
+                    r = userMapper.login("U_" + id.Text,pass.Text);
                     if (r.IsOK)
                     {
                         UserEntity user = (UserEntity) r.Obj;
@@ -54,7 +54,7 @@ namespace RentalSystem.Common
                 else if(o.Checked)
                 {
                     ownerMapper = new OwnerMapper();
-                    r = ownerMapper.login(id.Text, pass.Text);
+                    r = ownerMapper.login("O_"+id.Text, pass.Text);
                     if (r.IsOK)
                     {
                         OwnerEntity owner = (OwnerEntity)r.Obj;
@@ -65,7 +65,7 @@ namespace RentalSystem.Common
                 else
                 {
                     adminMapper = new AdminMapper();
-                    r = adminMapper.login(id.Text, pass.Text);
+                    r = adminMapper.login("A_"+id.Text, pass.Text);
                     if (r.IsOK)
                     {
                         AdminEntity admin = (AdminEntity)r.Obj;
@@ -84,6 +84,12 @@ namespace RentalSystem.Common
         private void change(object sender, EventArgs e)
         {
             warn_label.Text = "";
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
+
         }
     }
 }

@@ -263,7 +263,7 @@
             "30",
             "180",
             "365"});
-            this.time.Location = new System.Drawing.Point(271, 360);
+            this.time.Location = new System.Drawing.Point(271, 359);
             this.time.Name = "time";
             this.time.Size = new System.Drawing.Size(114, 24);
             this.time.TabIndex = 14;

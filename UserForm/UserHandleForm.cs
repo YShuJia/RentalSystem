@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using RentalSystem.Common;
 using System.Runtime.ConstrainedExecution;
+using System.Security.Cryptography;
 
 namespace RentalSystem.UserForm
 {
@@ -26,7 +27,6 @@ namespace RentalSystem.UserForm
             InitializeComponent();
             this.user = user;
             getReservation();
-            getBill();
         }
 
         UserEntity user;
@@ -37,7 +37,9 @@ namespace RentalSystem.UserForm
 
         ReservationMapper reservationMapper = new ReservationMapper();
 
-        TransferMapper transferMapper = new TransferMapper();
+        TransferMapper transferMapper;
+
+        ComplaintsMapper complaintsMapper = new ComplaintsMapper();
 
         R r;
 
@@ -57,7 +59,7 @@ namespace RentalSystem.UserForm
 
                 column = new DataGridViewButtonColumn();
                 column.Name = "操作2";
-                column.Text = "确 定";
+                column.Text = "租 赁";
                 column.UseColumnTextForButtonValue = true;
                 dataGridView1.Columns.Add(column);
             }
@@ -79,9 +81,25 @@ namespace RentalSystem.UserForm
 
                 column = new DataGridViewButtonColumn();
                 column.Name = "操作2";
-                column.Text = "确 定";
+                column.Text = "同 意";
                 column.UseColumnTextForButtonValue = true;
                 dataGridView2.Columns.Add(column);
+            }
+        }
+
+        private void getComplaints()
+        {
+            r = complaintsMapper.selectByTable(user.U_id, 0, -1);
+            if (r.IsOK)
+            {
+                DataSet ds = (DataSet)r.Obj;
+                dataGridView3.DataSource = ds.Tables[0].DefaultView;
+
+                DataGridViewButtonColumn column = new DataGridViewButtonColumn();
+                column.Name = "操 作";
+                column.Text = "处 理";
+                column.UseColumnTextForButtonValue = true;
+                dataGridView3.Columns.Add(column);
             }
         }
 
@@ -95,24 +113,56 @@ namespace RentalSystem.UserForm
             if (dataGridView1.Columns[e.ColumnIndex].Name == "操作1" && 
                 MessageBox.Show("房主已同意，确定取消预约？", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                r = reservationMapper.updateState(r_id, 0, h_id, 0);
+                r = reservationMapper.updateState(r_id, 1, h_id, 0);
                 if (r.IsOK)
                 {
                     dataGridView1.Rows.RemoveAt(e.RowIndex);
                 }
                 MessageBox.Show(r.Msg);
             }
-            if (dataGridView1.Columns[e.ColumnIndex].Name == "操作2" &&
-                MessageBox.Show("房主已同意，再次确认预约？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "操作2")
             {
-                r = reservationMapper.updateState(r_id, 1, h_id, 1);
+                index1 = e.RowIndex;
+                r = reservationMapper.updateState(r_id, 1, h_id, 2);
                 if (r.IsOK)
                 {
-                    dataGridView1.Rows.RemoveAt(e.RowIndex);
+                    houseMapper = new HouseMapper();
+                    r = houseMapper.selectByID(h_id);
+                    if (r.IsOK)
+                    {
+                        HouseEntity house = new HouseEntity();
+                        house.H_id = Convert.ToInt64(dataGridView1.Rows[e.RowIndex].Cells["房屋ID"].Value);
+                        UserShowHouse userShow = new UserShowHouse(house, user, this);
+                        userShow.ShowDialog();
+                    }
+                    MessageBox.Show(r.Msg);
                 }
-                MessageBox.Show(r.Msg);
             }
+        }
 
+        private R rental(decimal amount, decimal b_deposit, long h_id, string b_id)
+        {
+            houseMapper = new HouseMapper();
+            string o_id = houseMapper.selectO_idByH_id(h_id);
+            TransferEntity transfer = new TransferEntity();
+            TransferEntity transfer2 = new TransferEntity();
+            transfer.T_plaintiff_id = user.U_id;
+            transfer.T_object_id = o_id;
+            transfer.T_state = 1; //表示用户向房主转账
+            transfer.T_id = Utils.getTimeTicks();
+            transfer.T_time = DateTime.Now;
+            transfer.T_amount = amount + b_deposit;
+
+            //获取手续费
+            decimal b_premium = billMapper.selectPremiumByView(b_id);
+            transfer2.T_id = Utils.getTimeTicks();
+            transfer2.T_time = DateTime.Now;
+            transfer2.T_plaintiff_id = o_id;
+            transfer2.T_object_id = Utils.getAdminId();
+            transfer2.T_amount = b_premium;
+            transfer2.T_state = 2;
+            transferMapper = new TransferMapper();
+            return transferMapper.insertUtoOtoA(transfer, transfer2, b_id, h_id);
         }
 
         //租赁
@@ -136,38 +186,61 @@ namespace RentalSystem.UserForm
             if (dataGridView2.Columns[e.ColumnIndex].Name == "操作2" &&
                 MessageBox.Show("房主同意租赁，再次确认，将进行打款操作！", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-
-                houseMapper = new HouseMapper();
-                string o_id = houseMapper.selectO_idByH_id(h_id);
-                if (o_id != "")
+                decimal amount = Convert.ToDecimal(dataGridView2.Rows[e.RowIndex].Cells["租金(元)"].Value);
+                decimal b_deposit = Convert.ToDecimal(dataGridView2.Rows[e.RowIndex].Cells["押金(元)"].Value);
+                r = rental(amount, b_deposit, h_id,b_id);
+                if (r.IsOK)
                 {
-                    decimal amount = Convert.ToDecimal(dataGridView2.Rows[e.RowIndex].Cells["租金(元)"].Value);
-                    decimal b_deposit = Convert.ToDecimal(dataGridView2.Rows[e.RowIndex].Cells["押金(元)"].Value);
-                    TransferEntity transfer = new TransferEntity();
-                    TransferEntity transfer2 = new TransferEntity();
-                    transfer.T_plaintiff_id = user.U_id;
-                    transfer.T_object_id = o_id;
-                    transfer.T_state = 1; //表示用户向房主转账
-                    transfer.T_id = Utils.getTimeTicks();
-                    transfer.T_time = DateTime.Now;
-                    transfer.T_amount = amount + b_deposit;
-
-                    //获取手续费
-                    decimal b_premium = billMapper.selectPremiumByView(b_id);
-                    transfer2.T_id = Utils.getTimeTicks();
-                    transfer2.T_time = DateTime.Now;
-                    transfer2.T_plaintiff_id = o_id;
-                    transfer2.T_object_id = Utils.getAdminId();
-                    transfer2.T_amount = b_premium;
-                    transfer2.T_state = 2;
-
-                    r = transferMapper.insertUtoOtoA(transfer, transfer2, b_id, h_id);
-                    if (r.IsOK)
-                    {
-                        dataGridView2.Rows.RemoveAt(e.RowIndex);
-                    }
-                    MessageBox.Show(r.Msg);
+                    dataGridView2.Rows.RemoveAt(e.RowIndex);
                 }
+                MessageBox.Show(r.Msg);
+            }
+        }
+        int index1;
+        public void delete1()
+        {
+            dataGridView1.Rows.RemoveAt(index);
+        }
+
+        int index;
+        public void delete()
+        {
+            dataGridView3.Rows.RemoveAt(index);
+        }
+        private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridView3.Columns[e.ColumnIndex].Name != "操 作")
+                return;
+
+            index = e.RowIndex;
+            ComplaintsEntity complaints = new ComplaintsEntity();
+            string id = dataGridView3.Rows[e.RowIndex].Cells["投诉人"].Value.ToString();
+            complaints.C_type = dataGridView3.Rows[e.RowIndex].Cells["投诉人身份"].Value.ToString();
+            complaints.C_id = dataGridView3.Rows[e.RowIndex].Cells["投诉ID"].Value.ToString();
+            complaints.C_plaintiff = id;
+            complaints.C_something = dataGridView3.Rows[e.RowIndex].Cells["被投诉人"].Value.ToString();
+            complaints.C_content = dataGridView3.Rows[e.RowIndex].Cells["投诉内容"].Value.ToString();
+            complaints.C_result = dataGridView3.Rows[e.RowIndex].Cells["协商结果"].Value.ToString();
+            complaints.C_time = Convert.ToDateTime(dataGridView3.Rows[e.RowIndex].Cells["时间"].Value);
+
+            ComplaintsUpdateForm complaintsUpdate = new ComplaintsUpdateForm(this, complaints, true);
+            complaintsUpdate.ShowDialog();
+        }
+
+        private void tabControl1_Selected(object sender, TabControlEventArgs e)
+        {
+            Console.WriteLine(e.TabPageIndex);
+            if(e.TabPageIndex == 0 && dataGridView1.Rows.Count<= 0)
+            {
+                getReservation();
+            }
+            else if(e.TabPageIndex == 1 && dataGridView2.Rows.Count<= 0)
+            {
+                getBill();
+            }
+            else if( e.TabPageIndex == 2 && dataGridView3.Rows.Count<= 0)
+            {
+                getComplaints();
             }
         }
     }

@@ -29,6 +29,22 @@ namespace RentalSystem.UserForm
             this.userHouseForm = userHouse;
         }
 
+        public UserShowHouse(HouseEntity house, UserEntity user, UserHandleForm userHandle)
+        {
+            InitializeComponent();
+            this.userHandleForm = userHandle;
+            r = houseMapper.selectByID(house.H_id);
+            if (r.IsOK)
+            {
+                this.house = (HouseEntity)r.Obj;
+            }
+            this.user = user;
+        }
+
+        UserHandleForm userHandleForm;
+
+        HouseMapper  houseMapper = new HouseMapper();
+
         UserHouseForm userHouseForm;
 
         HouseEntity house;
@@ -58,13 +74,24 @@ namespace RentalSystem.UserForm
             bill.B_premium = Convert.ToDecimal((bill.B_rent * Utils.getPremium()).ToString("0.00"));
             bill.B_deposit = house.H_deposit;
             bill.B_state = 2;
+            if (userHouseForm == null)
+            {
+                bill.B_state = -2;
+            }
             bill.H_id = house.H_id;
             bill.U_id = user.U_id;
             r = billMapper.insert(bill);
             MessageBox.Show(r.Msg);
             if (r.IsOK)
             {
-                userHouseForm.delete();
+                if (userHouseForm!=null)
+                {
+                    userHouseForm.delete();
+                }
+                if (userHandleForm!=null)
+                {
+                    userHandleForm.delete1();
+                }
                 this.Close();
             }
         }

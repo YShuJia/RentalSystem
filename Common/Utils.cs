@@ -18,7 +18,7 @@ namespace RentalSystem.Common
         //管理员id
         public static String getAdminId()
         {
-            return "123";
+            return "A_789";
         }
 
         //手续费占比

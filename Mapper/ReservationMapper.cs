@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.AxHost;
 
 namespace RentalSystem.Mapper
 {
@@ -48,18 +49,13 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("r_state", reservation.R_state);
                 int n = comm.ExecuteNonQuery();
                 houseMapper = new HouseMapper();
+                r.IsOK = n > 0 && houseMapper.updateState(1, reservation.H_id, conn).IsOK;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
 
-                if (n > 0 && houseMapper.updateState(1, reservation.H_id, conn).IsOK)
-                {
-                    r.Msg = "操作成功...";
+                if (r.IsOK)
                     transaction.Commit();
-                }
                 else
-                {
-                    r.Msg = "操作失败...";
                     transaction.Rollback();
-                }
-                r.IsOK = n > 0;
                 return r;
             }
             catch (Exception ex)
@@ -88,13 +84,8 @@ namespace RentalSystem.Mapper
                 adapter = new MySqlDataAdapter(comm);
                 ds = new DataSet();
                 adapter.Fill(ds);
-
-                r.IsOK = true;
-                if (ds.Tables[0].Rows.Count < 1)
-                {
-                    r.IsOK = false;
-                    r.Msg = "暂无数据...";
-                }
+                r.IsOK = ds.Tables[0].Rows.Count > 0;
+                r.Msg = r.IsOK ? "" : "暂无数据...";
                 r.Obj = ds;
                 return r;
             }
@@ -124,13 +115,8 @@ namespace RentalSystem.Mapper
                 adapter = new MySqlDataAdapter(comm);
                 ds = new DataSet();
                 adapter.Fill(ds);
-
-                r.IsOK = true;
-                if (ds.Tables[0].Rows.Count < 1)
-                {
-                    r.IsOK = false;
-                    r.Msg = "暂无数据...";
-                }
+                r.IsOK = ds.Tables[0].Rows.Count > 0;
+                r.Msg = r.IsOK ? "" : "暂无数据...";
                 r.Obj = ds;
                 return r;
             }
@@ -160,13 +146,8 @@ namespace RentalSystem.Mapper
                 adapter = new MySqlDataAdapter(comm);
                 ds = new DataSet();
                 adapter.Fill(ds);
-
-                r.IsOK = true;
-                if (ds.Tables[0].Rows.Count < 1)
-                {
-                    r.IsOK = false;
-                    r.Msg = "暂无数据...";
-                }
+                r.IsOK = ds.Tables[0].Rows.Count > 0;
+                r.Msg = r.IsOK ? "" : "暂无数据...";
                 r.Obj = ds;
                 return r;
             }
@@ -195,23 +176,14 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("r_id", r_id);
                 comm.Parameters.AddWithValue("h_id", h_id);
                 int n = comm.ExecuteNonQuery();
-                if (n > 0)
-                {
-                    houseMapper = new HouseMapper();
-                    r = houseMapper.updateState(h_state , h_id, conn);
-                    if (r.IsOK)
-                    {
-                        transaction.Commit();
-                        r.IsOK = true;
-                        r.Msg = "操作成功...";
-                    }
-                }
+                houseMapper = new HouseMapper();
+
+                r.IsOK = n > 0 && houseMapper.updateState(h_state, h_id, conn).IsOK;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
+                if (r.IsOK)
+                    transaction.Commit();
                 else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
                     transaction.Rollback();
-                }
                 return r;
             }
             catch (Exception ex)
@@ -238,16 +210,8 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("r_id", r_id);
                 comm.Parameters.AddWithValue("u_id", u_id);
                 int n = comm.ExecuteNonQuery();
-                if (n > 0)
-                {
-                    r.IsOK = true;
-                    r.Msg = "操作成功...";
-                }
-                else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
-                }
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
                 return r;
             }
             catch (Exception ex)
@@ -273,16 +237,8 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("r_id", r_id);
                 comm.Parameters.AddWithValue("h_id", h_id);
                 int n = comm.ExecuteNonQuery();
-                if (n > 0)
-                {
-                    r.IsOK = true;
-                    r.Msg = "操作成功...";
-                }
-                else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
-                }
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
                 return r;
             }
             catch (Exception ex)

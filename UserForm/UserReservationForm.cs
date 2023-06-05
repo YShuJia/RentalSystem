@@ -39,9 +39,15 @@ namespace RentalSystem.UserForm
                 DataSet ds = (DataSet)r.Obj;
                 dataGridView1.DataSource = ds.Tables[0].DefaultView;
 
-                /*DataGridViewButtonColumn column = new DataGridViewButtonColumn();
-                column.Name = "操 作";
-                column.Text = "删 除";
+               /* DataGridViewButtonColumn column = new DataGridViewButtonColumn();
+                column.Name = "操作1";
+                column.Text = "退 还";
+                column.UseColumnTextForButtonValue = true;
+                dataGridView1.Columns.Add(column);
+
+                column = new DataGridViewButtonColumn();
+                column.Name = "操作2";
+                column.Text = "租 赁";
                 column.UseColumnTextForButtonValue = true;
                 dataGridView1.Columns.Add(column);*/
             }
@@ -49,7 +55,12 @@ namespace RentalSystem.UserForm
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridView1.Columns[e.ColumnIndex].Name == "操 作" &&
+            if (e.ColumnIndex != 0)
+                return;
+
+            long h_id = Convert.ToInt64(dataGridView1.Rows[e.RowIndex].Cells["房屋ID"].Value);
+            
+            /*if (dataGridView1.Columns[e.ColumnIndex].Name == "操作" &&
                 MessageBox.Show("确定要删除该记录？", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 string b_id = dataGridView1.Rows[e.RowIndex].Cells["预约ID"].Value.ToString();
@@ -59,7 +70,7 @@ namespace RentalSystem.UserForm
                     dataGridView1.Rows.RemoveAt(e.RowIndex);
                 }
                 MessageBox.Show(r.Msg);
-            }
+            }*/
         }
     }
 }

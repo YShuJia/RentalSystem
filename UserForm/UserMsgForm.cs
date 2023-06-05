@@ -55,7 +55,7 @@ namespace RentalSystem.UserForm
             user.U_addr = addr_text.Text;
             user.U_name = name_text.Text;
             user.U_sex = sex_text.Text;
-            r = userMapper.updateUserById(user);
+            r = userMapper.updateUser(user);
             warn_label.Text = r.Msg;
             if(r.IsOK)
             {

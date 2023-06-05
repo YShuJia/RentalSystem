@@ -67,7 +67,7 @@ namespace RentalSystem.OwnerForm
                 MessageBox.Show("确定要删除该记录？", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 string t_id = dataGridView1.Rows[e.RowIndex].Cells["帐单ID"].Value.ToString();
-                string id = dataGridView1.Rows[e.RowIndex].Cells["转向"].Value.ToString();
+                string id = dataGridView1.Rows[e.RowIndex].Cells["对象"].Value.ToString();
                 r = transferMapper.updateState(t_id, 0, id, owner.O_id);
                 if (r.IsOK)
                 {
@@ -83,7 +83,7 @@ namespace RentalSystem.OwnerForm
                 MessageBox.Show("确定要删除该记录？", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 string t_id = dataGridView2.Rows[e.RowIndex].Cells["帐单ID"].Value.ToString();
-                string id = dataGridView2.Rows[e.RowIndex].Cells["转入"].Value.ToString();
+                string id = dataGridView2.Rows[e.RowIndex].Cells["对象"].Value.ToString();
                 r = transferMapper.updateState(t_id, 0, owner.O_id, id);
                 if (r.IsOK)
                 {

@@ -1,4 +1,5 @@
-﻿using RentalSystem.Common;
+﻿using RentalSystem.AdminForm;
+using RentalSystem.Common;
 using RentalSystem.Entity;
 using RentalSystem.UserForm;
 using System;
@@ -112,7 +113,7 @@ namespace RentalSystem.OwnerForm
             if (link == pass_link)
                 return;
             color(pass_link);
-            openForm(new OwnerPassForm(owner, app));
+            openForm(new UpdatePassForm(app,owner));
         }
 
         private void exit_link_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -34,9 +34,9 @@
             this.owner = new System.Windows.Forms.LinkLabel();
             this.user = new System.Windows.Forms.LinkLabel();
             this.tranfer_log = new System.Windows.Forms.LinkLabel();
+            this.msg_link = new System.Windows.Forms.LinkLabel();
             this.pass_link = new System.Windows.Forms.LinkLabel();
             this.exit_link = new System.Windows.Forms.LinkLabel();
-            this.msg_link = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -78,7 +78,7 @@
             this.tableLayoutPanel1.Controls.Add(this.msg_link, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.pass_link, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.exit_link, 0, 6);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
@@ -114,6 +114,7 @@
             this.now.Text = "等待处理";
             this.now.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.now.UseCompatibleTextRendering = true;
+            this.now.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.now_LinkClicked);
             // 
             // owner
             // 
@@ -135,6 +136,7 @@
             this.owner.Text = "房主管理";
             this.owner.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.owner.UseCompatibleTextRendering = true;
+            this.owner.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.owner_LinkClicked);
             // 
             // user
             // 
@@ -156,6 +158,7 @@
             this.user.Text = "用户管理";
             this.user.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.user.UseCompatibleTextRendering = true;
+            this.user.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.user_LinkClicked);
             // 
             // tranfer_log
             // 
@@ -177,48 +180,7 @@
             this.tranfer_log.Text = "转账记录";
             this.tranfer_log.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.tranfer_log.UseCompatibleTextRendering = true;
-            // 
-            // pass_link
-            // 
-            this.pass_link.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pass_link.AutoSize = true;
-            this.pass_link.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pass_link.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
-            this.pass_link.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.pass_link.LinkColor = System.Drawing.Color.Black;
-            this.pass_link.Location = new System.Drawing.Point(1, 231);
-            this.pass_link.Margin = new System.Windows.Forms.Padding(0);
-            this.pass_link.Name = "pass_link";
-            this.pass_link.Padding = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.pass_link.Size = new System.Drawing.Size(172, 45);
-            this.pass_link.TabIndex = 6;
-            this.pass_link.TabStop = true;
-            this.pass_link.Text = "修改密码";
-            this.pass_link.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.pass_link.UseCompatibleTextRendering = true;
-            // 
-            // exit_link
-            // 
-            this.exit_link.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.exit_link.AutoSize = true;
-            this.exit_link.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.exit_link.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
-            this.exit_link.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.exit_link.LinkColor = System.Drawing.Color.Black;
-            this.exit_link.Location = new System.Drawing.Point(1, 277);
-            this.exit_link.Margin = new System.Windows.Forms.Padding(0);
-            this.exit_link.Name = "exit_link";
-            this.exit_link.Padding = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.exit_link.Size = new System.Drawing.Size(172, 45);
-            this.exit_link.TabIndex = 8;
-            this.exit_link.TabStop = true;
-            this.exit_link.Text = "安全退出";
-            this.exit_link.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.exit_link.UseCompatibleTextRendering = true;
+            this.tranfer_log.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.tranfer_log_LinkClicked);
             // 
             // msg_link
             // 
@@ -240,6 +202,51 @@
             this.msg_link.Text = "个人信息";
             this.msg_link.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.msg_link.UseCompatibleTextRendering = true;
+            this.msg_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.msg_link_LinkClicked);
+            // 
+            // pass_link
+            // 
+            this.pass_link.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pass_link.AutoSize = true;
+            this.pass_link.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pass_link.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
+            this.pass_link.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.pass_link.LinkColor = System.Drawing.Color.Black;
+            this.pass_link.Location = new System.Drawing.Point(1, 231);
+            this.pass_link.Margin = new System.Windows.Forms.Padding(0);
+            this.pass_link.Name = "pass_link";
+            this.pass_link.Padding = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.pass_link.Size = new System.Drawing.Size(172, 45);
+            this.pass_link.TabIndex = 6;
+            this.pass_link.TabStop = true;
+            this.pass_link.Text = "修改密码";
+            this.pass_link.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.pass_link.UseCompatibleTextRendering = true;
+            this.pass_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.pass_link_LinkClicked);
+            // 
+            // exit_link
+            // 
+            this.exit_link.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.exit_link.AutoSize = true;
+            this.exit_link.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.exit_link.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
+            this.exit_link.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.exit_link.LinkColor = System.Drawing.Color.Black;
+            this.exit_link.Location = new System.Drawing.Point(1, 277);
+            this.exit_link.Margin = new System.Windows.Forms.Padding(0);
+            this.exit_link.Name = "exit_link";
+            this.exit_link.Padding = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.exit_link.Size = new System.Drawing.Size(172, 45);
+            this.exit_link.TabIndex = 8;
+            this.exit_link.TabStop = true;
+            this.exit_link.Text = "安全退出";
+            this.exit_link.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.exit_link.UseCompatibleTextRendering = true;
+            this.exit_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.exit_link_LinkClicked);
             // 
             // AdminApp
             // 

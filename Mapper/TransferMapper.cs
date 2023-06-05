@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.AxHost;
 
 namespace RentalSystem.Mapper
 {
@@ -118,6 +119,7 @@ namespace RentalSystem.Mapper
                     return r;
                 }
                 //(1，-1) 用户与房主，(2，-2)房主与管理，(3,-3)用户与管理，0取消
+                //false 表示转出，true表示转入
                 if (transfer.T_state == 1 && userMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, false, conn) &&
                 ownerMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, true, conn))
                 {
@@ -130,16 +132,11 @@ namespace RentalSystem.Mapper
                     r.IsOK = true;
                 }
 
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
                 if (r.IsOK)
-                {
                     transaction.Commit();
-                    r.Msg = "操作成功...";
-                }
                 else
-                {
                     transaction.Rollback();
-                    r.Msg = "操作失败...";
-                }
                 return r;
             }
             catch (Exception ex)
@@ -154,7 +151,8 @@ namespace RentalSystem.Mapper
             }
         }
 
-        public R insertOtoA(TransferEntity transfer)
+        //返款
+        public R insertUandO(TransferEntity transfer)
         {
             r = new R();
             MySqlTransaction transaction = null;
@@ -170,28 +168,23 @@ namespace RentalSystem.Mapper
                     return r;
                 }
                 //(1，-1) 用户与房主，(2，-2)房主与管理，(3,-3)用户与管理，0取消
-
-                if (transfer.T_state == 2 && ownerMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, false, conn) &&
-                adminMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, true, conn))
+                //false 表示转出，true表示转入
+                if (transfer.T_state == 1 && userMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, false, conn) &&
+                ownerMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, true, conn))
                 {
                     r.IsOK = true;
                 }
-                else if (transfer.T_state == -2 && ownerMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, true, conn) &&
-                adminMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, false, conn))
+                else if (transfer.T_state == -1 && userMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, true, conn) &&
+                ownerMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, false, conn))
                 {
                     r.IsOK = true;
                 }
 
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
                 if (r.IsOK)
-                {
                     transaction.Commit();
-                    r.Msg = "操作成功...";
-                }
                 else
-                {
                     transaction.Rollback();
-                    r.Msg = "操作失败...";
-                }
                 return r;
             }
             catch (Exception ex)
@@ -206,58 +199,6 @@ namespace RentalSystem.Mapper
             }
         }
 
-        public R insertUtoA(TransferEntity transfer)
-        {
-            r = new R();
-            MySqlTransaction transaction = null;
-            try
-            {
-                conn = dataSource.getConnection();
-                transaction = conn.BeginTransaction();
-                int n = getComm(transfer, conn).ExecuteNonQuery();
-
-                if (n < 0)
-                {
-                    r.IsOK = false;
-                    transaction.Rollback();
-                    return r;
-                }
-                //(1，-1) 用户与房主，(2，-2)房主与管理，(3,-3)用户与管理，0取消
-
-                if (transfer.T_state == 3 && userMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, false, conn) &&
-                adminMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, true, conn))
-                {
-                    r.IsOK = true;
-                }
-                else if (transfer.T_state == -3 && userMapper.updateAccountById(transfer.T_object_id, transfer.T_amount, true, conn) &&
-                adminMapper.updateAccountById(transfer.T_plaintiff_id, transfer.T_amount, false, conn))
-                {
-                    r.IsOK = true;
-                }
-
-                if (r.IsOK)
-                {
-                    transaction.Commit();
-                    r.Msg = "操作成功...";
-                }
-                else
-                {
-                    transaction.Rollback();
-                    r.Msg = "操作失败...";
-                }
-                return r;
-            }
-            catch (Exception ex)
-            {
-                r.Msg = "操作失败...";
-                transaction.Rollback();
-                return r;
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
 
         public R selectByTable(int state, int state1, string id)
         {
@@ -267,12 +208,12 @@ namespace RentalSystem.Mapper
                 conn = dataSource.getConnection();
                 if(state < 0)
                 {
-                    sql = "select t_id 帐单ID, t_plaintiff_id 转入, t_amount 金额, t_time 时间" +
+                    sql = "select t_id 帐单ID, t_plaintiff_id 对象, t_amount 金额, t_time 时间" +
                     " from transfer where t_state = @state or t_state = @state1 and t_object_id=@id";
                 }
                 else
                 {
-                    sql = "select t_id 帐单ID, t_object_id 转向, t_amount 金额, t_time 时间" +
+                    sql = "select t_id 帐单ID, t_object_id 对象, t_amount 金额, t_time 时间" +
                     " from transfer where t_state = @state or t_state = @state1 and t_plaintiff_id=@id";
                 }
 
@@ -283,13 +224,8 @@ namespace RentalSystem.Mapper
                 adapter = new MySqlDataAdapter(comm);
                 ds = new DataSet();
                 adapter.Fill(ds);
-
-                r.IsOK = true;
-                if (ds.Tables[0].Rows.Count < 1)
-                {
-                    r.IsOK = false;
-                    r.Msg = "暂无数据...";
-                }
+                r.IsOK = ds.Tables[0].Rows.Count > 0;
+                r.Msg = r.IsOK ? "" : "暂无数据...";
                 r.Obj = ds;
                 return r;
             }
@@ -316,16 +252,8 @@ namespace RentalSystem.Mapper
                 comm.Parameters.AddWithValue("t_object_id", t_object_id);
                 comm.Parameters.AddWithValue("t_plaintiff_id", t_plaintiff_id);
                 int n = comm.ExecuteNonQuery();
-                if (n > 0)
-                {
-                    r.IsOK = true;
-                    r.Msg = "操作成功...";
-                }
-                else
-                {
-                    r.IsOK = false;
-                    r.Msg = "操作失败...";
-                }
+                r.IsOK = n > 0;
+                r.Msg = r.IsOK ? "操作成功..." : "操作失败...";
                 return r;
             }
             catch (Exception ex)

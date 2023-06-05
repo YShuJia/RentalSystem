@@ -1,6 +1,6 @@
-﻿namespace RentalSystem.UserForm
+﻿namespace RentalSystem.AdminForm
 {
-    partial class UserPassForm
+    partial class UpdatePassForm
     {
         /// <summary>
         /// Required designer variable.
@@ -63,7 +63,7 @@
             this.tableLayoutPanel1.Controls.Add(this.n_s_pass, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.warn_label, 4, 1);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(1, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 7;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
@@ -74,7 +74,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 65F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(805, 468);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel1.TabIndex = 2;
             // 
             // label1
             // 
@@ -187,14 +187,14 @@
             this.label5.TabIndex = 10;
             this.label5.Text = "为保障账号正常可用，请牢记密码！！！";
             // 
-            // UserPassForm
+            // AdminPassForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(806, 470);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Name = "UserPassForm";
-            this.Text = "UserPassForm";
+            this.Name = "AdminPassForm";
+            this.Text = "AdminPassForm";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -205,13 +205,13 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button submit;
+        private System.Windows.Forms.TextBox o_pass;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox o_pass;
         private System.Windows.Forms.TextBox n_pass;
+        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox n_s_pass;
-        private System.Windows.Forms.Button submit;
         private System.Windows.Forms.Label warn_label;
         private System.Windows.Forms.Label label5;
     }
