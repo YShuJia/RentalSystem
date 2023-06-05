@@ -14,6 +14,7 @@ namespace RentalSystem.Entity
         private string h_addr;
         private decimal h_area;
         private decimal h_rent;
+        private decimal h_deposit;
         private string h_introduce;
         private int h_state;
 
@@ -25,5 +26,6 @@ namespace RentalSystem.Entity
         public decimal H_rent { get => h_rent; set => h_rent = value; }
         public string H_introduce { get => h_introduce; set => h_introduce = value; }
         public int H_state { get => h_state; set => h_state = value; }
+        public decimal H_deposit { get => h_deposit; set => h_deposit = value; }
     }
 }

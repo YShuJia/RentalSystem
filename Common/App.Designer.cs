@@ -36,14 +36,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1404, 681);
+            this.panel1.Size = new System.Drawing.Size(1404, 741);
             this.panel1.TabIndex = 0;
             // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1404, 681);
+            this.ClientSize = new System.Drawing.Size(1404, 741);
             this.Controls.Add(this.panel1);
             this.MinimumSize = new System.Drawing.Size(800, 540);
             this.Name = "App";

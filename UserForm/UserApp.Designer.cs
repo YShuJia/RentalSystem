@@ -30,15 +30,15 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.exit_link = new System.Windows.Forms.LinkLabel();
-            this.msg_link = new System.Windows.Forms.LinkLabel();
-            this.pass_link = new System.Windows.Forms.LinkLabel();
             this.tranfer_log = new System.Windows.Forms.LinkLabel();
             this.view_log = new System.Windows.Forms.LinkLabel();
             this.rental_log = new System.Windows.Forms.LinkLabel();
             this.now = new System.Windows.Forms.LinkLabel();
             this.rental_link = new System.Windows.Forms.LinkLabel();
             this.now_link = new System.Windows.Forms.LinkLabel();
+            this.exit_link = new System.Windows.Forms.LinkLabel();
+            this.pass_link = new System.Windows.Forms.LinkLabel();
+            this.msg_link = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -60,7 +60,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanel1);
             this.splitContainer1.Panel1MinSize = 180;
             this.splitContainer1.Panel2MinSize = 5;
-            this.splitContainer1.Size = new System.Drawing.Size(704, 481);
+            this.splitContainer1.Size = new System.Drawing.Size(924, 539);
             this.splitContainer1.SplitterDistance = 180;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 0;
@@ -73,15 +73,15 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.exit_link, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.msg_link, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.pass_link, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.tranfer_log, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.view_log, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.rental_log, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.now, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.rental_link, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.now_link, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.exit_link, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.pass_link, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.msg_link, 0, 6);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 10;
@@ -95,74 +95,8 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(174, 475);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(174, 533);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // exit_link
-            // 
-            this.exit_link.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.exit_link.AutoSize = true;
-            this.exit_link.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.exit_link.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
-            this.exit_link.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.exit_link.LinkColor = System.Drawing.Color.Black;
-            this.exit_link.Location = new System.Drawing.Point(1, 369);
-            this.exit_link.Margin = new System.Windows.Forms.Padding(0);
-            this.exit_link.Name = "exit_link";
-            this.exit_link.Padding = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.exit_link.Size = new System.Drawing.Size(172, 45);
-            this.exit_link.TabIndex = 8;
-            this.exit_link.TabStop = true;
-            this.exit_link.Text = "安全退出";
-            this.exit_link.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.exit_link.UseCompatibleTextRendering = true;
-            this.exit_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.exit_link_LinkClicked);
-            // 
-            // msg_link
-            // 
-            this.msg_link.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.msg_link.AutoSize = true;
-            this.msg_link.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.msg_link.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
-            this.msg_link.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.msg_link.LinkColor = System.Drawing.Color.Black;
-            this.msg_link.Location = new System.Drawing.Point(1, 323);
-            this.msg_link.Margin = new System.Windows.Forms.Padding(0);
-            this.msg_link.Name = "msg_link";
-            this.msg_link.Padding = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.msg_link.Size = new System.Drawing.Size(172, 45);
-            this.msg_link.TabIndex = 7;
-            this.msg_link.TabStop = true;
-            this.msg_link.Text = "个人信息";
-            this.msg_link.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.msg_link.UseCompatibleTextRendering = true;
-            this.msg_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.msg_link_LinkClicked);
-            // 
-            // pass_link
-            // 
-            this.pass_link.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pass_link.AutoSize = true;
-            this.pass_link.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pass_link.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
-            this.pass_link.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.pass_link.LinkColor = System.Drawing.Color.Black;
-            this.pass_link.Location = new System.Drawing.Point(1, 277);
-            this.pass_link.Margin = new System.Windows.Forms.Padding(0);
-            this.pass_link.Name = "pass_link";
-            this.pass_link.Padding = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.pass_link.Size = new System.Drawing.Size(172, 45);
-            this.pass_link.TabIndex = 6;
-            this.pass_link.TabStop = true;
-            this.pass_link.Text = "修改密码";
-            this.pass_link.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.pass_link.UseCompatibleTextRendering = true;
-            this.pass_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.pass_link_LinkClicked);
             // 
             // tranfer_log
             // 
@@ -297,10 +231,76 @@
             this.now_link.UseCompatibleTextRendering = true;
             this.now_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.now_link_LinkClicked);
             // 
+            // exit_link
+            // 
+            this.exit_link.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.exit_link.AutoSize = true;
+            this.exit_link.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.exit_link.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
+            this.exit_link.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.exit_link.LinkColor = System.Drawing.Color.Black;
+            this.exit_link.Location = new System.Drawing.Point(1, 369);
+            this.exit_link.Margin = new System.Windows.Forms.Padding(0);
+            this.exit_link.Name = "exit_link";
+            this.exit_link.Padding = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.exit_link.Size = new System.Drawing.Size(172, 45);
+            this.exit_link.TabIndex = 8;
+            this.exit_link.TabStop = true;
+            this.exit_link.Text = "安全退出";
+            this.exit_link.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.exit_link.UseCompatibleTextRendering = true;
+            this.exit_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.exit_link_LinkClicked);
+            // 
+            // pass_link
+            // 
+            this.pass_link.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pass_link.AutoSize = true;
+            this.pass_link.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pass_link.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
+            this.pass_link.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.pass_link.LinkColor = System.Drawing.Color.Black;
+            this.pass_link.Location = new System.Drawing.Point(1, 323);
+            this.pass_link.Margin = new System.Windows.Forms.Padding(0);
+            this.pass_link.Name = "pass_link";
+            this.pass_link.Padding = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.pass_link.Size = new System.Drawing.Size(172, 45);
+            this.pass_link.TabIndex = 6;
+            this.pass_link.TabStop = true;
+            this.pass_link.Text = "修改密码";
+            this.pass_link.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.pass_link.UseCompatibleTextRendering = true;
+            this.pass_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.pass_link_LinkClicked);
+            // 
+            // msg_link
+            // 
+            this.msg_link.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.msg_link.AutoSize = true;
+            this.msg_link.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.msg_link.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
+            this.msg_link.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.msg_link.LinkColor = System.Drawing.Color.Black;
+            this.msg_link.Location = new System.Drawing.Point(1, 277);
+            this.msg_link.Margin = new System.Windows.Forms.Padding(0);
+            this.msg_link.Name = "msg_link";
+            this.msg_link.Padding = new System.Windows.Forms.Padding(30, 10, 30, 10);
+            this.msg_link.Size = new System.Drawing.Size(172, 45);
+            this.msg_link.TabIndex = 7;
+            this.msg_link.TabStop = true;
+            this.msg_link.Text = "个人信息";
+            this.msg_link.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.msg_link.UseCompatibleTextRendering = true;
+            this.msg_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.msg_link_LinkClicked);
+            // 
             // UserApp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(704, 481);
+            this.ClientSize = new System.Drawing.Size(924, 539);
             this.Controls.Add(this.splitContainer1);
             this.Name = "UserApp";
             this.Text = "UserApp";

@@ -55,15 +55,23 @@ namespace RentalSystem.Common
                 {
                     ownerMapper = new OwnerMapper();
                     r = ownerMapper.login(id.Text, pass.Text);
-                    OwnerEntity owner = (OwnerEntity)r.Obj;
-                    app.openForm(new OwnerApp(app, owner));
+                    if (r.IsOK)
+                    {
+                        OwnerEntity owner = (OwnerEntity)r.Obj;
+                        app.openForm(new OwnerApp(app, owner));
+                    }
+                    warn_label.Text = r.Msg;
                 }
                 else
                 {
                     adminMapper = new AdminMapper();
                     r = adminMapper.login(id.Text, pass.Text);
-                    AdminEntity admin = (AdminEntity)r.Obj;
-                    app.openForm(new AdminApp(app, admin));
+                    if (r.IsOK)
+                    {
+                        AdminEntity admin = (AdminEntity)r.Obj;
+                        app.openForm(new AdminApp(app, admin));
+                    }
+                    warn_label.Text = r.Msg;
                 }
             }
         }

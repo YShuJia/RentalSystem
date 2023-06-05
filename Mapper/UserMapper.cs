@@ -113,17 +113,94 @@ namespace RentalSystem.Mapper
             }
         }
 
-        public R s(string id, string tel, string pass)
+        public bool updateAccountById(string id, decimal amount, bool isInOut, MySqlConnection con)
+        {
+            r = new R();
+            try
+            {
+                sql = "update users set u_account=u_account+@amount where u_id=@id";
+                if (!isInOut)
+                {
+                    sql = "update users set u_account=u_account-@amount where u_id=@id";
+                }
+                comm = new MySqlCommand(sql, con);
+                comm.Parameters.AddWithValue("id", id);
+                comm.Parameters.AddWithValue("amount", amount);
+                int n = comm.ExecuteNonQuery();
+                return n>0;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public R updatePassById(string id, string pass)
         {
             r = new R();
             try
             {
                 conn = dataSource.getConnection();
+                sql = "update users set u_pass=@pass where u_id=@id";
+                comm = new MySqlCommand(sql, conn);
+                comm.Parameters.AddWithValue("id", id);
+                comm.Parameters.AddWithValue("pass",pass);
+                int n = comm.ExecuteNonQuery();
 
+                if (n>0)
+                {
+                    r.IsOK=true;
+                    r.Msg = "操作成功...";
+                }
+                else
+                {
+                    r.IsOK = false;
+                    r.Msg = "操作失败...";
+                }
+                return r;
             }
             catch (Exception ex)
             {
+                r.IsOK = false;
+                r.Msg = "服务器异常...";
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return r;
+        }
 
+        public R updateUserById(UserEntity user)
+        {
+            r = new R();
+            try
+            {
+                conn = dataSource.getConnection();
+                sql = "update users set u_name=@name, u_tel=@tel, u_sex=@sex, u_addr=@addr where u_id=@id";
+                comm = new MySqlCommand(sql, conn);
+                comm.Parameters.AddWithValue("id", user.U_id);
+                comm.Parameters.AddWithValue("tel", user.U_tel);
+                comm.Parameters.AddWithValue("sex", user.U_sex);
+                comm.Parameters.AddWithValue("addr", user.U_addr);
+                comm.Parameters.AddWithValue("name", user.U_name);
+                int n = comm.ExecuteNonQuery();
+
+                if (n > 0)
+                {
+                    r.IsOK = true;
+                    r.Msg = "操作成功...";
+                }
+                else
+                {
+                    r.IsOK = false;
+                    r.Msg = "操作失败...";
+                }
+                return r;
+            }
+            catch (Exception ex)
+            {
+                r.IsOK = false;
+                r.Msg = "服务器异常...";
             }
             finally
             {

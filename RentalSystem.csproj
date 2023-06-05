@@ -74,6 +74,42 @@
     <Compile Include="AdminForm\AdminApp.Designer.cs">
       <DependentUpon>AdminApp.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdminForm\AdminMsgForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminForm\AdminMsgForm.Designer.cs">
+      <DependentUpon>AdminMsgForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminForm\AdminNowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminForm\AdminNowForm.Designer.cs">
+      <DependentUpon>AdminNowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminForm\AdminOwnerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminForm\AdminOwnerForm.Designer.cs">
+      <DependentUpon>AdminOwnerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminForm\AdminPassForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminForm\AdminPassForm.Designer.cs">
+      <DependentUpon>AdminPassForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminForm\AdminTransferForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminForm\AdminTransferForm.Designer.cs">
+      <DependentUpon>AdminTransferForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminForm\AdminUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminForm\AdminUserForm.Designer.cs">
+      <DependentUpon>AdminUserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Common\App.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,6 +123,7 @@
     <Compile Include="Common\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Common\Page.cs" />
     <Compile Include="Common\R.cs" />
     <Compile Include="Common\Register.cs">
       <SubType>Form</SubType>
@@ -111,11 +148,53 @@
     <Compile Include="Mapper\ReservationMapper.cs" />
     <Compile Include="Mapper\TransferMapper.cs" />
     <Compile Include="Mapper\UserMapper.cs" />
+    <Compile Include="OwnerForm\OwnerMsgForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerMsgForm.Designer.cs">
+      <DependentUpon>OwnerMsgForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerPassForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerPassForm.Designer.cs">
+      <DependentUpon>OwnerPassForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerTransferForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerTransferForm.Designer.cs">
+      <DependentUpon>OwnerTransferForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="OwnerForm\OwnerApp.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="OwnerForm\OwnerApp.Designer.cs">
       <DependentUpon>OwnerApp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerHandleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerHandleForm.Designer.cs">
+      <DependentUpon>OwnerHandleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerNowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerNowForm.Designer.cs">
+      <DependentUpon>OwnerNowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerRentalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerRentalForm.Designer.cs">
+      <DependentUpon>OwnerRentalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerReservationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerForm\OwnerReservationForm.Designer.cs">
+      <DependentUpon>OwnerReservationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -167,12 +246,30 @@
     <Compile Include="UserForm\UserReservationForm.Designer.cs">
       <DependentUpon>UserReservationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForm\UserShowHouse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForm\UserShowHouse.Designer.cs">
+      <DependentUpon>UserShowHouse.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForm\UserTransferForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserForm\UserTransferForm.Designer.cs">
       <DependentUpon>UserTransferForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForm\UserVIewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForm\UserVIewForm.Designer.cs">
+      <DependentUpon>UserVIewForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AdminForm\AdminApp.resx">
+      <DependentUpon>AdminApp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminForm\AdminNowForm.resx">
+      <DependentUpon>AdminNowForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Common\App.resx">
       <DependentUpon>App.cs</DependentUpon>
     </EmbeddedResource>
@@ -184,6 +281,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OwnerForm\OwnerApp.resx">
       <DependentUpon>OwnerApp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerForm\OwnerHandleForm.resx">
+      <DependentUpon>OwnerHandleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerForm\OwnerMsgForm.resx">
+      <DependentUpon>OwnerMsgForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerForm\OwnerNowForm.resx">
+      <DependentUpon>OwnerNowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerForm\OwnerPassForm.resx">
+      <DependentUpon>OwnerPassForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerForm\OwnerRentalForm.resx">
+      <DependentUpon>OwnerRentalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerForm\OwnerReservationForm.resx">
+      <DependentUpon>OwnerReservationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerForm\OwnerTransferForm.resx">
+      <DependentUpon>OwnerTransferForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -200,6 +318,33 @@
     <EmbeddedResource Include="UserForm\UserHandleForm.resx">
       <DependentUpon>UserHandleForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserForm\UserHouseForm.resx">
+      <DependentUpon>UserHouseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForm\UserMsgForm.resx">
+      <DependentUpon>UserMsgForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForm\UserNowForm.resx">
+      <DependentUpon>UserNowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForm\UserPassForm.resx">
+      <DependentUpon>UserPassForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForm\UserRentalForm.resx">
+      <DependentUpon>UserRentalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForm\UserReservationForm.resx">
+      <DependentUpon>UserReservationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForm\UserShowHouse.resx">
+      <DependentUpon>UserShowHouse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForm\UserTransferForm.resx">
+      <DependentUpon>UserTransferForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForm\UserVIewForm.resx">
+      <DependentUpon>UserVIewForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -214,6 +359,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Common\数据库文件.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace RentalSystem.Mapper
 {
@@ -115,6 +116,102 @@ namespace RentalSystem.Mapper
             {
                 conn.Close();
             }
+        }
+
+        public bool updateAccountById(string id, decimal amount, bool isInOut, MySqlConnection con)
+        {
+            r = new R();
+            try
+            {
+                sql = "update owner set o_account=o_account+@amount where o_id=@id";
+                if (!isInOut)
+                {
+                    sql = "update owner set o_account=o_account-@amount where o_id=@id";
+                }
+                comm = new MySqlCommand(sql, con);
+                comm.Parameters.AddWithValue("id", id);
+                comm.Parameters.AddWithValue("amount", amount);
+                int n = comm.ExecuteNonQuery();
+                return n > 0;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public R updateOwnerById(OwnerEntity owner)
+        {
+            r = new R();
+            try
+            {
+                conn = dataSource.getConnection();
+                sql = "update owner set o_name=@name, o_tel=@tel, o_sex=@sex where o_id=@id";
+                comm = new MySqlCommand(sql, conn);
+                comm.Parameters.AddWithValue("id", owner.O_id);
+                comm.Parameters.AddWithValue("tel", owner.O_tel);
+                comm.Parameters.AddWithValue("sex", owner.O_sex);
+                comm.Parameters.AddWithValue("name", owner.O_name);
+                int n = comm.ExecuteNonQuery();
+
+                if (n > 0)
+                {
+                    r.IsOK = true;
+                    r.Msg = "操作成功...";
+                }
+                else
+                {
+                    r.IsOK = false;
+                    r.Msg = "操作失败...";
+                }
+                return r;
+            }
+            catch (Exception ex)
+            {
+                r.IsOK = false;
+                r.Msg = "服务器异常...";
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return r;
+        }
+
+        public R updatePassById(string id, string pass)
+        {
+            r = new R();
+            try
+            {
+                conn = dataSource.getConnection();
+                sql = "update owner set o_pass=@pass where o_id=@id";
+                comm = new MySqlCommand(sql, conn);
+                comm.Parameters.AddWithValue("id", id);
+                comm.Parameters.AddWithValue("pass", pass);
+                int n = comm.ExecuteNonQuery();
+
+                if (n > 0)
+                {
+                    r.IsOK = true;
+                    r.Msg = "操作成功...";
+                }
+                else
+                {
+                    r.IsOK = false;
+                    r.Msg = "操作失败...";
+                }
+                return r;
+            }
+            catch (Exception ex)
+            {
+                r.IsOK = false;
+                r.Msg = "服务器异常...";
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return r;
         }
     }
 }

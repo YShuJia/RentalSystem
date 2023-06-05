@@ -111,7 +111,7 @@ namespace RentalSystem.UserForm
             if (link == pass_link)
                 return;
             color(pass_link);
-            openForm(new UserPassForm(user));
+            openForm(new UserPassForm(user, app));
         }
 
         private void msg_link_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -125,7 +125,10 @@ namespace RentalSystem.UserForm
         //退出登录
         private void exit_link_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            app.openForm(new Login(app));
+            if (MessageBox.Show("确定要退出登录?", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                app.openForm(new Login(app));
+            }
         }
     }
 }

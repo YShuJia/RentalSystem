@@ -27,8 +27,6 @@ namespace RentalSystem.UserForm
             this.user = user;
             getReservation();
             getBill();
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView2.RowHeadersVisible = false;
         }
 
         UserEntity user;
@@ -39,11 +37,13 @@ namespace RentalSystem.UserForm
 
         ReservationMapper reservationMapper = new ReservationMapper();
 
+        TransferMapper transferMapper = new TransferMapper();
+
         R r;
 
         private void getReservation()
         {
-            r = reservationMapper.selectByView(2,user.U_id);
+            r = reservationMapper.selectByView(-2,user.U_id);
             if(r.IsOK )
             {
                 DataSet ds = (DataSet)r.Obj;
@@ -51,13 +51,13 @@ namespace RentalSystem.UserForm
           
                 DataGridViewButtonColumn column = new DataGridViewButtonColumn();
                 column.Name = "操作1";
-                column.Text = "取消";
+                column.Text = "取 消";
                 column.UseColumnTextForButtonValue = true;
                 dataGridView1.Columns.Add(column);
 
                 column = new DataGridViewButtonColumn();
                 column.Name = "操作2";
-                column.Text = "确定";
+                column.Text = "确 定";
                 column.UseColumnTextForButtonValue = true;
                 dataGridView1.Columns.Add(column);
             }
@@ -65,7 +65,7 @@ namespace RentalSystem.UserForm
 
         private void getBill()
         {
-            r = billMapper.selectByView(2,user.U_id);
+            r = billMapper.selectByView(-2,user.U_id);
             if (r.IsOK)
             {
                 DataSet ds = (DataSet)r.Obj;
@@ -73,13 +73,13 @@ namespace RentalSystem.UserForm
 
                 DataGridViewButtonColumn column = new DataGridViewButtonColumn();
                 column.Name = "操作1";
-                column.Text = "取消";
+                column.Text = "取 消";
                 column.UseColumnTextForButtonValue = true;
                 dataGridView2.Columns.Add(column);
 
                 column = new DataGridViewButtonColumn();
                 column.Name = "操作2";
-                column.Text = "确定";
+                column.Text = "确 定";
                 column.UseColumnTextForButtonValue = true;
                 dataGridView2.Columns.Add(column);
             }
@@ -88,15 +88,29 @@ namespace RentalSystem.UserForm
         //预约
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (dataGridView1.Columns[e.ColumnIndex].Name != "操作1" && dataGridView1.Columns[e.ColumnIndex].Name != "操作2")
+                return;
+            string r_id = dataGridView1.Rows[e.RowIndex].Cells["预约ID"].Value.ToString();
+            long h_id = Convert.ToInt64(dataGridView1.Rows[e.RowIndex].Cells["房屋ID"].Value);
             if (dataGridView1.Columns[e.ColumnIndex].Name == "操作1" && 
-                MessageBox.Show("房主已同意预约，确定要取消预约？", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                MessageBox.Show("房主已同意，确定取消预约？", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-               string id = dataGridView1.Rows[e.RowIndex].Cells["预约ID"].Value.ToString();
+                r = reservationMapper.updateState(r_id, 0, h_id, 0);
+                if (r.IsOK)
+                {
+                    dataGridView1.Rows.RemoveAt(e.RowIndex);
+                }
+                MessageBox.Show(r.Msg);
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "操作2" &&
-                MessageBox.Show("房主已同意预约，再次确认预约？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                MessageBox.Show("房主已同意，再次确认预约？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                Console.WriteLine(e.ColumnIndex.ToString());
+                r = reservationMapper.updateState(r_id, 1, h_id, 1);
+                if (r.IsOK)
+                {
+                    dataGridView1.Rows.RemoveAt(e.RowIndex);
+                }
+                MessageBox.Show(r.Msg);
             }
 
         }
@@ -104,13 +118,15 @@ namespace RentalSystem.UserForm
         //租赁
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+
+            if (dataGridView2.Columns[e.ColumnIndex].Name != "操作1" && dataGridView2.Columns[e.ColumnIndex].Name != "操作2")
+                return;
             long h_id = Convert.ToInt64(dataGridView2.Rows[e.RowIndex].Cells["房屋ID"].Value);
             string b_id = dataGridView2.Rows[e.RowIndex].Cells["订单ID"].Value.ToString();
-
             if (dataGridView2.Columns[e.ColumnIndex].Name == "操作1" &&
-                MessageBox.Show("房主已同意租赁，确定要取消租赁？", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                MessageBox.Show("房主同意租赁，确定取消租赁？", "警告", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                r = billMapper.updateState(0,b_id,h_id);
+                r = billMapper.updateState(b_id, 0, h_id, 0);
                 if(r.IsOK)
                 {
                     dataGridView2.Rows.RemoveAt(e.RowIndex);
@@ -118,7 +134,7 @@ namespace RentalSystem.UserForm
                 MessageBox.Show(r.Msg);
             }
             if (dataGridView2.Columns[e.ColumnIndex].Name == "操作2" &&
-                MessageBox.Show("房主已同意租赁，再次确认租赁？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                MessageBox.Show("房主同意租赁，再次确认，将进行打款操作！", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
 
                 houseMapper = new HouseMapper();
@@ -126,14 +142,31 @@ namespace RentalSystem.UserForm
                 if (o_id != "")
                 {
                     decimal amount = Convert.ToDecimal(dataGridView2.Rows[e.RowIndex].Cells["租金(元)"].Value);
+                    decimal b_deposit = Convert.ToDecimal(dataGridView2.Rows[e.RowIndex].Cells["押金(元)"].Value);
                     TransferEntity transfer = new TransferEntity();
+                    TransferEntity transfer2 = new TransferEntity();
                     transfer.T_plaintiff_id = user.U_id;
                     transfer.T_object_id = o_id;
-                    transfer.T_state = 1;
+                    transfer.T_state = 1; //表示用户向房主转账
                     transfer.T_id = Utils.getTimeTicks();
                     transfer.T_time = DateTime.Now;
-                    transfer.T_amount = amount;
-                    Console.WriteLine(amount);
+                    transfer.T_amount = amount + b_deposit;
+
+                    //获取手续费
+                    decimal b_premium = billMapper.selectPremiumByView(b_id);
+                    transfer2.T_id = Utils.getTimeTicks();
+                    transfer2.T_time = DateTime.Now;
+                    transfer2.T_plaintiff_id = o_id;
+                    transfer2.T_object_id = Utils.getAdminId();
+                    transfer2.T_amount = b_premium;
+                    transfer2.T_state = 2;
+
+                    r = transferMapper.insertUtoOtoA(transfer, transfer2, b_id, h_id);
+                    if (r.IsOK)
+                    {
+                        dataGridView2.Rows.RemoveAt(e.RowIndex);
+                    }
+                    MessageBox.Show(r.Msg);
                 }
             }
         }
