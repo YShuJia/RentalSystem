@@ -213,5 +213,27 @@ namespace RentalSystem.Mapper
             }
             return r;
         }
+
+        public bool updateAccountById(string id, decimal amount, bool isInOut, MySqlConnection con)
+        {
+            r = new R();
+            try
+            {
+                sql = "update owner set o_account=o_account+@amount where o_id=@id";
+                if (!isInOut)
+                {
+                    sql = "update owner set o_account=o_account-@amount where o_id=@id";
+                }
+                comm = new MySqlCommand(sql, con);
+                comm.Parameters.AddWithValue("id", id);
+                comm.Parameters.AddWithValue("amount", amount);
+                int n = comm.ExecuteNonQuery();
+                return n > 0;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }
